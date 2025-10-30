@@ -1,0 +1,58 @@
+# PowerShell Module and Cache Files
+*.psm1
+*.psd1
+PSGet_*
+
+# Temporary PowerShell files
+*.ps1~
+*.tmp
+
+# Output and Log Files
+*.log
+*.csv
+*.json
+*.xml
+*.xlsx
+
+# Reports and Exports (add specific patterns if needed)
+/Reports/
+/Exports/
+/Output/
+
+# Azure and Authentication Files
+*.azureauth
+*.publishsettings
+*.pubxml
+*.pubxml.user
+
+# Visual Studio and VS Code Files
+.vscode/
+.vs/
+*.suo
+*.user
+
+# Windows System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# PowerShell Execution Policy and Profile Files
+Microsoft.PowerShell_profile.ps1
+profile.ps1
+
+# Test and Development Files
+/Tests/Results/
+/Dev/
+/Testing/
+
+# Sensitive Configuration (if any)
+config.json
+secrets.json
+*.key
+*.cert

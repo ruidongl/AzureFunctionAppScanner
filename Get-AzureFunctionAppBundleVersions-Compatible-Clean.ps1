@@ -1,4 +1,4 @@
-# Azure Function App Bundle Scanner - PowerShell 5.1 Compatible with Resource Graph Optimization
+﻿# Azure Function App Bundle Scanner - PowerShell 5.1 Compatible with Resource Graph Optimization
 # Requires Az.Accounts, Az.Websites, and Az.ResourceGraph modules
 
 param(
@@ -45,11 +45,11 @@ if ($UseResourceGraph) {
             
             # Try to import the module
             Import-Module -Name 'Az.ResourceGraph' -Force -ErrorAction Stop
-            Write-Host "  ✅ Az.ResourceGraph module loaded successfully" -ForegroundColor Green
+            Write-Host "  âœ… Az.ResourceGraph module loaded successfully" -ForegroundColor Green
         } catch {
-            Write-Host "  ⚠️ Az.ResourceGraph module compatibility issue:" -ForegroundColor Yellow
+            Write-Host "  âš ï¸ Az.ResourceGraph module compatibility issue:" -ForegroundColor Yellow
             Write-Host "    $($_.Exception.Message)" -ForegroundColor Yellow
-            Write-Host "  🔄 Disabling Resource Graph optimization, using traditional scanning" -ForegroundColor Yellow
+            Write-Host "  ðŸ”„ Disabling Resource Graph optimization, using traditional scanning" -ForegroundColor Yellow
             $UseResourceGraph = $false
         }
     } else {
@@ -67,7 +67,7 @@ function Find-FunctionAppsWithResourceGraph {
     )
     
     try {
-        Write-Host "  📊 Executing Resource Graph query across specified subscriptions..." -ForegroundColor Cyan
+        Write-Host "  ðŸ“Š Executing Resource Graph query across specified subscriptions..." -ForegroundColor Cyan
         
         # Build the Resource Graph query
         $query = @"
@@ -96,16 +96,16 @@ resources
         $functionApps = Search-AzGraph -Query $query -First 1000
         
         if ($functionApps) {
-            Write-Host "  ✅ Resource Graph found $($functionApps.Count) Function App(s) across all specified subscriptions" -ForegroundColor Green
+            Write-Host "  âœ… Resource Graph found $($functionApps.Count) Function App(s) across all specified subscriptions" -ForegroundColor Green
             return $functionApps
         } else {
-            Write-Host "  ⚠️ No Function Apps found using Resource Graph" -ForegroundColor Yellow
+            Write-Host "  âš ï¸ No Function Apps found using Resource Graph" -ForegroundColor Yellow
             return @()
         }
         
     } catch {
-        Write-Host "  ❌ Resource Graph query failed: $($_.Exception.Message)" -ForegroundColor Red
-        Write-Host "  🔄 Falling back to traditional resource group scanning..." -ForegroundColor Yellow
+        Write-Host "  âŒ Resource Graph query failed: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "  ðŸ”„ Falling back to traditional resource group scanning..." -ForegroundColor Yellow
         return $null
     }
 }
@@ -328,13 +328,13 @@ try {
     # Try Resource Graph approach first (much more efficient)
     if ($UseResourceGraph) {
         Write-Host ""
-        Write-Host "🚀 Using Azure Resource Graph for high-performance Function App discovery..." -ForegroundColor Cyan
+        Write-Host "ðŸš€ Using Azure Resource Graph for high-performance Function App discovery..." -ForegroundColor Cyan
         
         $subscriptionIds = $subscriptions | ForEach-Object { $_.Id }
         $resourceGraphFunctionApps = Find-FunctionAppsWithResourceGraph -SubscriptionIds $subscriptionIds -ResourceGroupName $ResourceGroupName
         
         if ($resourceGraphFunctionApps) {
-            Write-Host "✅ Resource Graph optimization successful!" -ForegroundColor Green
+            Write-Host "âœ… Resource Graph optimization successful!" -ForegroundColor Green
             Write-Host ""
             Write-Host "Processing Function Apps found via Resource Graph..." -ForegroundColor Blue
             
@@ -367,7 +367,7 @@ try {
                 }
             }
         } else {
-            Write-Host "⚠️ Resource Graph returned no results. Falling back to traditional scanning..." -ForegroundColor Yellow
+            Write-Host "âš ï¸ Resource Graph returned no results. Falling back to traditional scanning..." -ForegroundColor Yellow
             $UseResourceGraph = $false
         }
     }
@@ -375,7 +375,7 @@ try {
     # Fallback to traditional resource group scanning if Resource Graph failed or disabled
     if (-not $UseResourceGraph -or -not $resourceGraphFunctionApps) {
         Write-Host ""
-        Write-Host "🔍 Using traditional resource group scanning..." -ForegroundColor Yellow
+        Write-Host "ðŸ” Using traditional resource group scanning..." -ForegroundColor Yellow
     
     foreach ($subscription in $subscriptions) {
         Write-Host ""
